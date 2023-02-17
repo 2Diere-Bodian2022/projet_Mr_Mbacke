@@ -1,10 +1,11 @@
  import 'package:flutter/material.dart';
-import 'package:page_inscription/MesPages/Liste.dart';
 import 'package:page_inscription/MesPages/Page%20de%20Connexion/Formulaire_complet.dart';
 import 'package:page_inscription/MesPages/Page%20de%20Connexion/tiroir.dart';
-import 'package:page_inscription/MesPages/PageAcceuil/HomePage.dart';
-import 'package:page_inscription/MesPages/PagePrincipal.dart';
-import 'package:page_inscription/MesPages/Tags.dart';
+
+
+
+import 'package:page_inscription/MesPages/PagesInscription/Caract%C3%A9ristique/Ecran_login/Page_Login.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -16,12 +17,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-      appBar: AppBar(
-       title:Text("Mon appli"),
+      debugShowCheckedModeBanner: false,
+     title: 'Login',
+    theme: ThemeData(
+      primarySwatch: Colors.blue,
     ),
-       body:Tags(),
-      )
+    home: Produit(),
     );
   }
 }

@@ -1,65 +1,86 @@
 import 'package:flutter/material.dart';
 import 'package:page_inscription/MesPages/Liste.dart';
-import 'package:page_inscription/MesPages/Page%20de%20Connexion/Formulaire_complet.dart';
+import 'package:page_inscription/MesPages/Page de Connexion/Formulaire_complet.dart';
 import 'package:page_inscription/MesPages/Tags.dart';
 
+class Produit extends StatefulWidget {
 
-class Produit extends StatelessWidget {
+  @override
+  _ProduitState createState() => _ProduitState();
+}
+
+class _ProduitState extends State<Produit> {
+  int _selectedIndex = 0;
+
+  static List<Widget> _widgetOptions = <Widget>[
+    Liste(),
+    Tags(),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return  Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: <Widget>[
-          DrawerHeader(
-            decoration: BoxDecoration(
-              color: Colors.blue,
-            ),
-            child: Text(
-              'Produit',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 24,
-              ),
-            ),
-          ),
-          ListTile(
-            leading: Icon(Icons.add),
-            title: Text('Ajouter Produit'),
-            onTap: () {
-              // Update the UI by swapping out the drawer for the home page.
-              Navigator.push(context,
-                MaterialPageRoute(builder:(context)=>MonFormulaire()),
-              );
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Produit"),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {
+              // TODO: Implement search.
             },
           ),
-          ListTile(
-            leading: Icon(Icons.list),
-            title: Text('Liste'),
-            onTap: () {
-              // Update the UI by swapping out the drawer for the settings page.
-              Navigator.push(context,
-                MaterialPageRoute(builder:(context)=>Liste()),
-              );
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.label),
-            title: Text('Tags/Catégorie'),
-            onTap: () {
-              // Update the UI by swapping out the drawer for the settings page.
-              Navigator.push(context,
-                MaterialPageRoute(builder:(context)=>Tags()),
-              );
+          IconButton(
+            icon: Icon(Icons.settings),
+            onPressed: () {
+              // TODO: Implement settings.
             },
           ),
         ],
       ),
+      body:Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Color(0xff0D47A1),
+                Color(0xff42A5F5),
+              ],
+            ),
+          ),
+
+      ),
+
+        floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => MonFormulaire()),
+          );
+        },
+        tooltip: 'Ajouter Produit',
+        child: Icon(Icons.add),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.list),
+            label: 'Liste',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.label),
+            label: 'Tags/Catégories',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+      ),
     );
   }
 }
-
-
-
-
-/
