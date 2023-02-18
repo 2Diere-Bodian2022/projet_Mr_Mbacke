@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:page_inscription/MesPages/Liste.dart';
+
 import 'package:page_inscription/MesPages/Page de Connexion/Formulaire_complet.dart';
 import 'package:page_inscription/MesPages/Tags.dart';
 
@@ -13,7 +14,7 @@ class _ProduitState extends State<Produit> {
   int _selectedIndex = 0;
 
   static List<Widget> _widgetOptions = <Widget>[
-    Liste(),
+    SearchForm(),
     Tags(),
   ];
 
@@ -26,24 +27,24 @@ class _ProduitState extends State<Produit> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Produit"),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.search),
-            onPressed: () {
-              // TODO: Implement search.
-            },
-          ),
-          IconButton(
-            icon: Icon(Icons.settings),
-            onPressed: () {
-              // TODO: Implement settings.
-            },
-          ),
-        ],
-      ),
-      body:Container(
+        appBar: AppBar(
+          title: Text("Produit"),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () {
+                // TODO: Implement search.
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.settings),
+              onPressed: () {
+                // TODO: Implement settings.
+              },
+            ),
+          ],
+        ),
+        body: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
@@ -55,32 +56,50 @@ class _ProduitState extends State<Produit> {
             ),
           ),
 
-      ),
+        ),
 
         floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => MonFormulaire()),
-          );
-        },
-        tooltip: 'Ajouter Produit',
-        child: Icon(Icons.add),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.list),
-            label: 'Liste',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.label),
-            label: 'Tags/Catégories',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-      ),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => MonFormulaire()),
+            );
+          },
+          tooltip: 'Ajouter Produit',
+          child: Icon(Icons.add),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.list),
+              label: 'Liste',
+            ),
+
+            BottomNavigationBarItem(
+              icon: Icon(Icons.label),
+              label: 'Tags/Catégories',
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          onTap: (int index) {
+            setState(() {
+              _selectedIndex = index;
+              if (_selectedIndex == 0) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SearchForm()),
+                );
+              }
+              if(_selectedIndex==1){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context)=>Tags()),
+                );
+              }
+            });
+          },
+        )
+
     );
   }
 }
