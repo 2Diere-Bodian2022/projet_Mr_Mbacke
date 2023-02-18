@@ -1,9 +1,11 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:page_inscription/MesPages/Page%20de%20Connexion/tiroir.dart';
 import 'package:page_inscription/MesPages/PagesInscription/Caract%C3%A9ristique/Conexion/Inscription_pages.dart';
 import 'package:page_inscription/MesPages/PagesInscription/Caract%C3%A9ristique/oublier/Pages_oublier.dart';
 import 'package:page_inscription/MesPages/PagesInscription/Coeur/Animation/Page_Animation.dart';
 import 'package:page_inscription/MesPages/PagesInscription/Coeur/Couleurs/Page_couleur.dart';
-
+import 'package:http/http.dart' as http;
 
 enum FormData {
   Email,
@@ -16,6 +18,47 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  var affficheurErreur= false;
+  void seConnecter() {
+    // Définir l'URL de l'API
+    Uri url = Uri.parse(
+        "http://localhost:81/dolibarr/api/index.php/login?login=${emailController.text}&password=${passwordController.text}");
+
+    // Récupérer les valeurs de l'email et du mot de passe depuis les contrôleurs
+    String email = emailController.text;
+    String password = passwordController.text;
+
+    // Envoyer une requête GET à l'API avec les paramètres email et password
+    http.get(url, headers: {
+      "login": email,
+      "password": password,
+    }).then((response) {
+      // Analyser la réponse JSON de l'API
+
+      dynamic data = jsonDecode(response.body);
+      print(data);
+      setState(() {
+        // Mettre à jour l'état de l'application avec les données reçues de l'API
+      if  (data.containsKey('success') && data['success']['code']==200){
+        print('ok');
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder:(context)=>Produit()),
+        );
+      }
+      });
+    }).catchError((error) {
+      // Gérer les erreurs de l'API
+      setState(() {
+        affficheurErreur=true;
+        emailController.text='';
+        passwordController.text='';
+      });
+      print(error);
+      print('je suis la ');
+    });
+  }
+
   Color enabled = const Color.fromARGB(255, 63, 56, 89);
   Color enabledtxt = Colors.white;
   Color deaible = Colors.grey;
@@ -211,6 +254,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           delay: 1,
                           child: TextButton(
                               onPressed: () {
+                                print("-----------------clicked-------------------");
+                                seConnecter();
                                 // Navigator.pop(context);
                                 // Navigator.of(context)
                                 //     .push(MaterialPageRoute(builder: (context) {
